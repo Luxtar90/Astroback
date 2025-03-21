@@ -18,6 +18,7 @@ Asegúrate de que tu repositorio contenga los siguientes archivos:
 - `requirements.txt` - Dependencias de Python
 - `render.yaml` - Configuración para Render
 - `Procfile` - Configuración alternativa (opcional)
+- `gunicorn_config.py` - Configuración para Gunicorn
 
 ### 2. Crear un Nuevo Servicio Web en Render
 
@@ -29,7 +30,7 @@ Asegúrate de que tu repositorio contenga los siguientes archivos:
    - **Nombre**: astrobot-backend (o el que prefieras)
    - **Entorno**: Python
    - **Comando de construcción**: `chmod +x render-build.sh && ./render-build.sh`
-   - **Comando de inicio**: `gunicorn run:app --bind=0.0.0.0:10000 --workers=4 --worker-class=gevent --timeout=30`
+   - **Comando de inicio**: `gunicorn run:app -c gunicorn_config.py`
 
 ### 3. Configurar Variables de Entorno
 
@@ -75,7 +76,21 @@ const API_BASE_URL = "https://tu-url.onrender.com";
 Si encuentras este error, asegúrate de que:
 
 1. El archivo `run.py` existe y contiene `app = create_app()`
-2. El comando de inicio es `gunicorn run:app --bind=0.0.0.0:10000 --workers=4 --worker-class=gevent --timeout=30`
+2. El comando de inicio es `gunicorn run:app -c gunicorn_config.py`
+
+### Error "'gunicorn_config.py' doesn't exist"
+
+Si encuentras este error, tienes dos opciones:
+
+1. **Opción 1: Asegurarte de que gunicorn_config.py existe y está correctamente configurado**
+   - Verifica que el archivo `gunicorn_config.py` existe en la raíz del proyecto
+   - Asegúrate de que no contiene errores de sintaxis o referencias a funciones no definidas
+   - Si hay hooks (como `on_starting`, `worker_exit`, etc.), asegúrate de que estén correctamente implementados o comentados
+
+2. **Opción 2: Cambiar el comando de inicio en el panel de Render**
+   - Ve a la sección "Settings" de tu servicio en el dashboard de Render
+   - Cambia el comando de inicio a: `gunicorn run:app --bind=0.0.0.0:10000 --workers=4 --worker-class=gevent --timeout=30`
+   - Guarda los cambios y redespliega
 
 ### Discrepancia entre configuración manual y render.yaml
 

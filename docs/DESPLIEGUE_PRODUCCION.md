@@ -23,15 +23,19 @@ Esta guía se enfocará en la opción de VPS por ser la más flexible y económi
 ### 1. Preparar el Servidor
 
 Conéctate a tu servidor mediante SSH:
+
 ```bash
 ssh usuario@ip-del-servidor
 ```
+
 Actualiza el sistema:
+
 ```bash
 sudo apt update && sudo apt upgrade -y
 ```
 
 ### 2. Instalar Git y Clonar el Repositorio
+
 ```bash
 sudo apt install git -y
 git clone https://tu-repositorio/astrobot.git
@@ -41,11 +45,14 @@ cd astrobot
 ### 3. Configurar Variables de Entorno
 
 Crea un archivo `.env` en la raíz del proyecto:
+
 ```bash
 cp .env.example .env
 nano .env
 ```
+
 Edita el archivo para incluir tu clave API de OpenRouter y otras configuraciones:
+
 ```makefile
 OPENROUTER_API_KEY=tu-clave-api
 DEBUG=False
@@ -55,10 +62,12 @@ LOG_LEVEL=INFO
 ### 4. Ejecutar el Script de Despliegue
 
 Hemos incluido un script de despliegue que automatiza la instalación de Docker y el despliegue del backend:
+
 ```bash
 chmod +x deploy.sh
 ./deploy.sh
 ```
+
 El script realizará las siguientes acciones:
 - Verificar e instalar Docker y Docker Compose si es necesario
 - Configurar el firewall para permitir el tráfico necesario
@@ -68,14 +77,19 @@ El script realizará las siguientes acciones:
 ### 5. Configurar un Proxy Inverso con Nginx y SSL (Recomendado)
 
 Para mayor seguridad y profesionalismo, es recomendable configurar Nginx como proxy inverso y habilitar SSL:
+
 ```bash
 sudo apt install nginx certbot python3-certbot-nginx -y
 ```
+
 Crea una configuración de Nginx:
+
 ```bash
 sudo nano /etc/nginx/sites-available/astrobot
 ```
+
 Añade la siguiente configuración:
+
 ```nginx
 server {
     listen 80;
@@ -90,13 +104,17 @@ server {
     }
 }
 ```
+
 Habilita la configuración:
+
 ```bash
 sudo ln -s /etc/nginx/sites-available/astrobot /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
 ```
+
 Configura SSL con Certbot:
+
 ```bash
 sudo certbot --nginx -d tudominio.com
 ```
@@ -110,16 +128,19 @@ Actualiza la configuración de tu aplicación cliente para que apunte a la nueva
 ## Mantenimiento y Monitoreo
 
 ### Verificar el Estado del Servicio
+
 ```bash
 docker-compose -f docker/docker-compose.yml ps
 ```
 
 ### Ver Logs
+
 ```bash
 docker-compose -f docker/docker-compose.yml logs -f
 ```
 
 ### Reiniciar el Servicio
+
 ```bash
 docker-compose -f docker/docker-compose.yml restart
 ```
@@ -127,6 +148,7 @@ docker-compose -f docker/docker-compose.yml restart
 ### Actualizar el Backend
 
 Para actualizar a una nueva versión:
+
 ```bash
 git pull
 docker-compose -f docker/docker-compose.yml down
@@ -138,19 +160,24 @@ docker-compose -f docker/docker-compose.yml up -d --build
 ### El Backend No Responde
 
 Verifica que los contenedores estén en ejecución:
+
 ```bash
 docker ps
 ```
+
 Verifica los logs:
+
 ```bash
 docker-compose -f docker/docker-compose.yml logs
 ```
 
-### Problemas de Conexión desde el Cliente
+Si el backend sigue sin responder:
 
+ 
 - Asegúrate de que el puerto 5000 (o 80/443 si usas Nginx) esté abierto en el firewall
 - Verifica que la URL configurada en el cliente sea correcta
 - Prueba la conexión con curl desde otro servidor:
+
 ```bash
 curl https://tudominio.com/status
 ```
