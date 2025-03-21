@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
-# Script de construcción para Render
+# render-build.sh - Script de construcción para Render
 
-# Salir en caso de error
-set -o errexit
+# Salir inmediatamente si algún comando falla
+set -e
+
+echo " Iniciando script de construcción para Render..."
 
 # Instalar dependencias
+echo " Instalando dependencias desde requirements.txt..."
 pip install --upgrade pip
 pip install -r requirements.txt
 pip install gunicorn gevent
@@ -25,9 +28,17 @@ find . -type f -name "*.py" | sort
 echo "Contenido de app.py:"
 cat app.py
 
+# Mostrar información sobre el archivo wsgi.py
+echo "Contenido de wsgi.py:"
+cat wsgi.py
+
 # Verificar que la aplicación se puede importar correctamente
-echo "Verificando importación de la aplicación..."
-python -c "import sys; sys.path.insert(0, '.'); from app import create_app; application = create_app(); print('Importación exitosa!')"
+echo "Verificando importación de la aplicación desde app.py..."
+python -c "import sys; sys.path.insert(0, '.'); from app import create_app; app = create_app(); print('Importación desde app.py exitosa!')"
+
+# Verificar que la aplicación se puede importar correctamente desde wsgi.py
+echo "Verificando importación de la aplicación desde wsgi.py..."
+python -c "import sys; sys.path.insert(0, '.'); import wsgi; print('Módulo wsgi importado correctamente'); print('wsgi tiene los siguientes atributos:', dir(wsgi))"
 
 # Verificar que gunicorn puede importar la aplicación
 echo "Verificando que gunicorn puede importar la aplicación..."

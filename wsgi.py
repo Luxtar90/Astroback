@@ -1,9 +1,12 @@
 #!/usr/bin/env python
-# app.py - Punto de entrada para Render y otras plataformas
-from dotenv import load_dotenv
+# wsgi.py - Punto de entrada para servidores WSGI como Gunicorn
+"""
+Este módulo es el punto de entrada para servidores WSGI como Gunicorn.
+Importa la aplicación Flask desde el paquete app y la expone como 'app'.
+"""
+import logging
 import os
 import sys
-import logging
 
 # Configurar logging
 logging.basicConfig(
@@ -15,11 +18,7 @@ logger = logging.getLogger(__name__)
 # Asegurarse de que el directorio actual está en el path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-# Cargar variables de entorno
-load_dotenv()
-
-# Registrar información de inicio
-logger.info("Iniciando aplicación AstroBot")
+logger.info("Iniciando aplicación AstroBot desde wsgi.py")
 logger.info(f"Directorio de trabajo: {os.getcwd()}")
 logger.info(f"Python path: {sys.path}")
 
@@ -29,14 +28,7 @@ try:
     
     # Crear la instancia de la aplicación
     app = create_app()
-    logger.info("Aplicación Flask creada correctamente")
+    logger.info("Aplicación Flask creada correctamente en wsgi.py")
 except Exception as e:
-    logger.error(f"Error al crear la aplicación: {str(e)}")
+    logger.error(f"Error al crear la aplicación en wsgi.py: {str(e)}")
     raise
-
-if __name__ == '__main__':
-    # Configurar host='0.0.0.0' permite que el servidor sea accesible 
-    # desde cualquier dispositivo en la red, no solo desde localhost
-    port = int(os.getenv("PORT", 5000))
-    logger.info(f"Iniciando servidor en el puerto {port}")
-    app.run(host='0.0.0.0', port=port)

@@ -3,7 +3,7 @@ services:
     name: astrobot-backend
     env: python
     buildCommand: chmod +x render-build.sh && ./render-build.sh
-    startCommand: gunicorn -c gunicorn_config.py "app:create_app()"
+    startCommand: gunicorn wsgi:app -c gunicorn_config.py
     envVars:
       - key: OPENROUTER_API_KEY
         sync: false
