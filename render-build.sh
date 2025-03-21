@@ -18,6 +18,7 @@ mkdir -p logs
 # Asegurar que los archivos tienen permisos de ejecución
 chmod +x app.py
 chmod +x wsgi.py
+chmod +x run.py
 chmod +x gunicorn_config.py
 
 # Mostrar información sobre la estructura del proyecto
@@ -32,13 +33,21 @@ cat app.py
 echo "Contenido de wsgi.py:"
 cat wsgi.py
 
-# Verificar que la aplicación se puede importar correctamente
+# Mostrar información sobre el archivo run.py
+echo "Contenido de run.py:"
+cat run.py
+
+# Verificar que la aplicación se puede importar correctamente desde app.py
 echo "Verificando importación de la aplicación desde app.py..."
 python -c "import sys; sys.path.insert(0, '.'); from app import create_app; app = create_app(); print('Importación desde app.py exitosa!')"
 
 # Verificar que la aplicación se puede importar correctamente desde wsgi.py
 echo "Verificando importación de la aplicación desde wsgi.py..."
 python -c "import sys; sys.path.insert(0, '.'); import wsgi; print('Módulo wsgi importado correctamente'); print('wsgi tiene los siguientes atributos:', dir(wsgi))"
+
+# Verificar que la aplicación se puede importar correctamente desde run.py
+echo "Verificando importación de la aplicación desde run.py..."
+python -c "import sys; sys.path.insert(0, '.'); import run; print('Módulo run importado correctamente'); print('run tiene los siguientes atributos:', dir(run))"
 
 # Verificar que gunicorn puede importar la aplicación
 echo "Verificando que gunicorn puede importar la aplicación..."

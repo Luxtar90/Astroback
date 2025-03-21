@@ -1,13 +1,12 @@
 #!/usr/bin/env python
-# app.py - Punto de entrada para Render y otras plataformas
+# app.py - Punto de entrada principal para la aplicación AstroBot
 """
 Este módulo es el punto de entrada principal para la aplicación AstroBot.
 Importa la aplicación Flask desde el paquete app y la expone como 'app'.
 """
-from dotenv import load_dotenv
+import logging
 import os
 import sys
-import logging
 
 # Configurar logging
 logging.basicConfig(
@@ -18,9 +17,6 @@ logger = logging.getLogger(__name__)
 
 # Asegurarse de que el directorio actual está en el path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-
-# Cargar variables de entorno
-load_dotenv()
 
 # Registrar información de inicio
 logger.info("Iniciando aplicación AstroBot")
