@@ -27,23 +27,23 @@ graceful_timeout = 30
 max_requests = 1000
 max_requests_jitter = 50
 
-# Hooks
-def on_starting(server):
-    """Ejecutado cuando el servidor está iniciando."""
-    print("Iniciando servidor Gunicorn...")
+# Hooks - Comentados para evitar errores
+# def on_starting(server):
+#     """Ejecutado cuando el servidor está iniciando."""
+#     pass
 
-def on_reload(server):
-    """Ejecutado cuando el servidor se recarga."""
-    print("Recargando servidor Gunicorn...")
+# def on_reload(server):
+#     """Ejecutado cuando el servidor se recarga."""
+#     pass
 
-def post_fork(server, worker):
-    """Ejecutado después de crear un worker."""
-    print(f"Worker {worker.pid} creado.")
+# def post_fork(server, worker):
+#     """Ejecutado después de crear un worker."""
+#     pass
 
-def worker_exit(server, worker):
-    """Ejecutado cuando un worker sale."""
-    print(f"Worker {worker.pid} saliendo.")
+# def worker_exit(server, worker):
+#     """Ejecutado cuando un worker sale."""
+#     pass
 
-def worker_abort(worker):
-    """Ejecutado cuando un worker es abortado."""
-    print(f"Worker {worker.pid} abortado.")
+# def worker_abort(worker):
+#     """Ejecutado cuando un worker es abortado."""
+#     pass
