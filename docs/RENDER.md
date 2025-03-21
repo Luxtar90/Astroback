@@ -34,9 +34,11 @@ Si encuentras el error "Failed to find attribute 'app' in 'app'":
 Si encuentras el error "'gunicorn_config.py' doesn't exist":
 
 1. Cambia el comando de inicio para incluir los parámetros directamente:
-   ```
+
+   ```bash
    gunicorn run:app --bind=0.0.0.0:10000 --workers=4 --worker-class=gevent --timeout=30
    ```
+
 2. Actualiza tanto `render.yaml` como `Procfile` con este comando
 
 ## Limitaciones del Plan Gratuito

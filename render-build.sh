@@ -19,7 +19,6 @@ mkdir -p logs
 chmod +x app.py
 chmod +x wsgi.py
 chmod +x run.py
-chmod +x gunicorn_config.py
 
 # Mostrar información sobre la estructura del proyecto
 echo "Estructura del proyecto:"
@@ -51,11 +50,7 @@ python -c "import sys; sys.path.insert(0, '.'); import run; print('Módulo run i
 
 # Verificar que gunicorn puede importar la aplicación
 echo "Verificando que gunicorn puede importar la aplicación..."
-python -c "import sys; sys.path.insert(0, '.'); import app; print('Módulo app importado correctamente'); print('app tiene los siguientes atributos:', dir(app))"
-
-# Verificar la configuración de Gunicorn
-echo "Verificando configuración de Gunicorn..."
-python -c "import gunicorn_config; print('Configuración de Gunicorn cargada correctamente')"
+python -c "import sys; sys.path.insert(0, '.'); import run; print('Módulo run importado correctamente'); print('run.app existe:', hasattr(run, 'app'))"
 
 # Mostrar versiones de las dependencias principales
 echo "Versiones de dependencias:"
