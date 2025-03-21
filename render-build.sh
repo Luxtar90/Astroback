@@ -19,7 +19,49 @@ mkdir -p logs
 chmod +x app.py
 chmod +x wsgi.py
 chmod +x run.py
-chmod +x gunicorn_config.py
+
+# Verificar si gunicorn_config.py existe
+echo "Verificando si gunicorn_config.py existe..."
+if [ -f "gunicorn_config.py" ]; then
+    echo "gunicorn_config.py EXISTE"
+    chmod +x gunicorn_config.py
+    echo "Contenido de gunicorn_config.py:"
+    cat gunicorn_config.py
+else
+    echo "ERROR: gunicorn_config.py NO EXISTE"
+    echo "Creando gunicorn_config.py..."
+    cat > gunicorn_config.py << 'EOL'
+#!/usr/bin/env python
+# gunicorn_config.py - Configuración optimizada para Gunicorn en producción
+
+import os
+
+# Configuración básica
+bind = "0.0.0.0:10000"
+workers = 4
+worker_class = "gevent"
+worker_connections = 1000
+timeout = 30
+keepalive = 2
+
+# Configuración de logging
+accesslog = "-"
+errorlog = "-"
+loglevel = os.getenv("LOG_LEVEL", "info").lower()
+
+# Configuración de seguridad
+limit_request_line = 4096
+limit_request_fields = 100
+limit_request_field_size = 8190
+
+# Configuración de rendimiento
+graceful_timeout = 30
+max_requests = 1000
+max_requests_jitter = 50
+EOL
+    chmod +x gunicorn_config.py
+    echo "gunicorn_config.py creado correctamente"
+fi
 
 # Mostrar información sobre la estructura del proyecto
 echo "Estructura del proyecto:"

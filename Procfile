@@ -1,1 +1,1 @@
-web: gunicorn run:app -c gunicorn_config.py
+web: chmod +x start.sh && ./start.sh

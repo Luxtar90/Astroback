@@ -173,7 +173,6 @@ docker-compose -f docker/docker-compose.yml logs
 
 Si el backend sigue sin responder:
 
- 
 - Asegúrate de que el puerto 5000 (o 80/443 si usas Nginx) esté abierto en el firewall
 - Verifica que la URL configurada en el cliente sea correcta
 - Prueba la conexión con curl desde otro servidor:

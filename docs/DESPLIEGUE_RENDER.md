@@ -15,10 +15,12 @@ Asegúrate de que tu repositorio contenga los siguientes archivos:
 
 - `app.py` - Punto de entrada para desarrollo local
 - `run.py` - Punto de entrada para Gunicorn en producción
+- `wsgi.py` - Alternativa a run.py (opcional)
 - `requirements.txt` - Dependencias de Python
 - `render.yaml` - Configuración para Render
 - `Procfile` - Configuración alternativa (opcional)
 - `gunicorn_config.py` - Configuración para Gunicorn
+- `start.sh` - Script alternativo para iniciar la aplicación
 
 ### 2. Crear un Nuevo Servicio Web en Render
 
@@ -30,7 +32,7 @@ Asegúrate de que tu repositorio contenga los siguientes archivos:
    - **Nombre**: astrobot-backend (o el que prefieras)
    - **Entorno**: Python
    - **Comando de construcción**: `chmod +x render-build.sh && ./render-build.sh`
-   - **Comando de inicio**: `gunicorn run:app -c gunicorn_config.py`
+   - **Comando de inicio**: `chmod +x start.sh && ./start.sh`
 
 ### 3. Configurar Variables de Entorno
 
@@ -80,14 +82,19 @@ Si encuentras este error, asegúrate de que:
 
 ### Error "'gunicorn_config.py' doesn't exist"
 
-Si encuentras este error, tienes dos opciones:
+Si encuentras este error, puedes resolverlo de varias formas:
 
 1. **Opción 1: Asegurarte de que gunicorn_config.py existe y está correctamente configurado**
    - Verifica que el archivo `gunicorn_config.py` existe en la raíz del proyecto
    - Asegúrate de que no contiene errores de sintaxis o referencias a funciones no definidas
    - Si hay hooks (como `on_starting`, `worker_exit`, etc.), asegúrate de que estén correctamente implementados o comentados
 
-2. **Opción 2: Cambiar el comando de inicio en el panel de Render**
+2. **Opción 2: Usar el script start.sh**
+   - Asegúrate de que el archivo `start.sh` existe en la raíz del proyecto
+   - Verifica que tiene permisos de ejecución (`chmod +x start.sh`)
+   - El script debe contener lógica para manejar tanto el caso en que `gunicorn_config.py` exista como cuando no exista
+
+3. **Opción 3: Cambiar el comando de inicio en el panel de Render**
    - Ve a la sección "Settings" de tu servicio en el dashboard de Render
    - Cambia el comando de inicio a: `gunicorn run:app --bind=0.0.0.0:10000 --workers=4 --worker-class=gevent --timeout=30`
    - Guarda los cambios y redespliega
