@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 # app.py - Punto de entrada para Render y otras plataformas
+"""
+Este módulo es el punto de entrada principal para la aplicación AstroBot.
+Importa la aplicación Flask desde el paquete app y la expone como 'application'.
+"""
 from dotenv import load_dotenv
 import os
 import sys
@@ -28,7 +32,11 @@ try:
     from app import create_app
     
     # Crear la instancia de la aplicación
-    app = create_app()
+    application = create_app()
+    
+    # Alias para compatibilidad con diferentes servidores WSGI
+    app = application
+    
     logger.info("Aplicación Flask creada correctamente")
 except Exception as e:
     logger.error(f"Error al crear la aplicación: {str(e)}")
@@ -39,4 +47,4 @@ if __name__ == '__main__':
     # desde cualquier dispositivo en la red, no solo desde localhost
     port = int(os.getenv("PORT", 5000))
     logger.info(f"Iniciando servidor en el puerto {port}")
-    app.run(host='0.0.0.0', port=port)
+    application.run(host='0.0.0.0', port=port)

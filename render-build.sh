@@ -25,9 +25,9 @@ find . -type f -name "*.py" | sort
 echo "Contenido de app.py:"
 cat app.py
 
-# Verificar que la aplicación se puede importar
+# Verificar que la aplicación se puede importar correctamente
 echo "Verificando importación de la aplicación..."
-python -c "import sys; sys.path.insert(0, '.'); from app import create_app; app = create_app(); print('Importación exitosa!')"
+python -c "import sys; sys.path.insert(0, '.'); from app import create_app; application = create_app(); print('Importación exitosa!')"
 
 # Verificar que gunicorn puede importar la aplicación
 echo "Verificando que gunicorn puede importar la aplicación..."
