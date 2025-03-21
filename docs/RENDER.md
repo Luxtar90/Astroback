@@ -1,0 +1,32 @@
+# Despliegue en Render
+
+## Pasos Rápidos
+
+1. Sube tu código a GitHub
+2. Crea una cuenta en [Render](https://render.com/)
+3. Crea un nuevo Web Service conectando tu repositorio
+4. Configura:
+   - **Entorno**: Python
+   - **Comando de construcción**: `chmod +x render-build.sh && ./render-build.sh`
+   - **Comando de inicio**: `gunicorn app:app`
+5. Añade variables de entorno:
+   - `OPENROUTER_API_KEY`: Tu clave API
+   - `DEBUG`: "False"
+   - `LOG_LEVEL`: "INFO"
+6. Haz clic en "Create Web Service"
+
+## Verificación
+
+Accede a `https://tu-url.onrender.com/status` para verificar que el servicio está funcionando.
+
+## Solución de Problemas
+
+Si encuentras el error "Failed to find attribute 'app' in 'app'":
+1. Asegúrate de que existe el archivo `app.py` con `app = create_app()`
+2. Verifica que el comando de inicio es `gunicorn app:app`
+
+## Limitaciones del Plan Gratuito
+
+- Suspensión después de 15 minutos de inactividad
+- 512 MB de RAM
+- Ancho de banda limitado

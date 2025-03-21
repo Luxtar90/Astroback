@@ -4,6 +4,7 @@ Esta guía te ayudará a desplegar el backend de AstroBot en Render de forma gra
 
 ## Requisitos
 
+ 
 - Una cuenta en [Render](https://render.com/)
 - Tu código subido a GitHub o GitLab
 
@@ -13,7 +14,8 @@ Esta guía te ayudará a desplegar el backend de AstroBot en Render de forma gra
 
 Asegúrate de que tu repositorio contenga los siguientes archivos:
 
-- `wsgi.py` - Punto de entrada para Gunicorn
+ 
+- `app.py` - Punto de entrada para Gunicorn
 - `requirements.txt` - Dependencias de Python
 - `render.yaml` - Configuración para Render (opcional)
 - `Procfile` - Configuración alternativa (opcional)
@@ -24,18 +26,21 @@ Asegúrate de que tu repositorio contenga los siguientes archivos:
 2. Haz clic en "New" y selecciona "Web Service"
 3. Conecta tu repositorio de GitHub/GitLab
 4. Configura el servicio:
+
+ 
    - **Nombre**: astrobot-backend (o el que prefieras)
    - **Entorno**: Python
-   - **Comando de construcción**: `pip install -r requirements.txt`
-   - **Comando de inicio**: `gunicorn wsgi:app`
+   - **Comando de construcción**: `chmod +x render-build.sh && ./render-build.sh`
+   - **Comando de inicio**: `gunicorn app:app`
 
 ### 3. Configurar Variables de Entorno
 
 En la sección "Environment" de tu servicio en Render, añade las siguientes variables:
 
+ 
 - `OPENROUTER_API_KEY`: Tu clave API de OpenRouter
-- `DEBUG`: False
-- `LOG_LEVEL`: INFO
+- `DEBUG`: "False"
+- `LOG_LEVEL`: "INFO"
 
 ### 4. Desplegar el Servicio
 
@@ -46,7 +51,10 @@ En la sección "Environment" de tu servicio en Render, añade las siguientes var
 
 Una vez completado el despliegue, Render te proporcionará una URL para tu servicio (por ejemplo, `https://astrobot-backend.onrender.com`).
 
+ 
 Puedes verificar que el servicio está funcionando correctamente accediendo a:
+
+ 
 - `https://tu-url.onrender.com/status`
 - `https://tu-url.onrender.com/welcome`
 
@@ -60,6 +68,7 @@ const API_BASE_URL = "https://tu-url.onrender.com";
 
 ## Limitaciones del Plan Gratuito de Render
 
+ 
 - El servicio se suspende después de 15 minutos de inactividad
 - Al recibir una nueva solicitud, el servicio se reactiva (puede tardar unos segundos)
 - 512 MB de RAM
@@ -70,12 +79,16 @@ const API_BASE_URL = "https://tu-url.onrender.com";
 ### Error "Failed to find attribute 'app' in 'app'"
 
 Si encuentras este error, asegúrate de que:
-1. El archivo `wsgi.py` existe y contiene `app = create_app()`
-2. El comando de inicio es `gunicorn wsgi:app` (no `app:app` o `run:app`)
+
+ 
+1. El archivo `app.py` existe y contiene `app = create_app()`
+2. El comando de inicio es `gunicorn app:app`
 
 ### Error de Tiempo de Espera
 
 Si el servicio tarda demasiado en iniciar, puede ser debido a:
+
+ 
 1. Dependencias pesadas que tardan en instalarse
 2. Proceso de inicio lento
 
@@ -84,12 +97,16 @@ Intenta optimizar tu aplicación para que inicie más rápido.
 ### Error de Memoria Insuficiente
 
 Si recibes errores de memoria, considera:
+
+ 
 1. Optimizar tu aplicación para usar menos memoria
 2. Actualizar a un plan de pago de Render con más recursos
 
 ## Actualización del Servicio
 
 Para actualizar tu servicio:
+
+ 
 1. Realiza cambios en tu repositorio y haz push
 2. Render detectará automáticamente los cambios y desplegará la nueva versión
 
