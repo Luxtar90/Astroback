@@ -36,6 +36,22 @@ def welcome():
 def status():
     """Endpoint para verificar el estado del servidor"""
     try:
+        return jsonify({
+            "status": "ok",
+            "message": "AstroBot backend is running",
+            "version": current_app.config.get("VERSION", "1.0.0")
+        }), 200
+    except Exception as e:
+        logger.error(f"Error en el endpoint de status: {str(e)}")
+        return jsonify({
+            "status": "error",
+            "message": "Error interno del servidor"
+        }), 500
+
+@bp.route('/healthcheck', methods=['GET'])
+def healthcheck():
+    """Endpoint para verificar el estado del servidor"""
+    try:
         # Verificar si tenemos la clave API configurada
         api_key = current_app.config.get("OPENROUTER_API_KEY")
         if not api_key:

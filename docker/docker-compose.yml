@@ -1,0 +1,49 @@
+version: '3.8'
+
+# Configuración de Docker Compose para AstroBot Backend
+services:
+  astroback:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: astrobot-backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ../app:/app/app
+      - ../logs:/app/logs
+      - ../.env:/app/.env
+    env_file:
+      - ../.env
+    networks:
+      - astrolab-network
+    restart: always
+    # Configuración para permitir conexiones desde el exterior
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # Límites de recursos para evitar consumo excesivo
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+    # Configuración de healthcheck
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    environment:
+      - DEBUG=False
+      - LOG_LEVEL=INFO
+    # Configuración de logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  astrolab-network:
+    driver: bridge

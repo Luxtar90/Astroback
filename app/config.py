@@ -20,4 +20,10 @@ class Config:
         "¡Hola! Soy AstroBot, tu asistente especializado en química y cálculos de laboratorio. ¿En qué puedo ayudarte hoy?")
     # Habilitar saludo automático al iniciar
     AUTO_WELCOME = os.getenv("AUTO_WELCOME", "True").lower() in ('true', '1', 't')
-    DEBUG = True  # Activa el modo debug para desarrollo (desactívalo en producción)
+    DEBUG = os.getenv("DEBUG", "False").lower() in ('true', '1', 't')  # Desactivado por defecto en producción
+    
+    # Configuración de seguridad
+    SECRET_KEY = os.getenv("SECRET_KEY", os.urandom(24).hex())
+    
+    # Configuración de logs
+    LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
