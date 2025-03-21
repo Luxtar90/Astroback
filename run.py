@@ -1,4 +1,7 @@
 # run.py
+# Importar el parche de gevent antes que cualquier otra cosa
+import gevent_patch
+
 from app import create_app
 from dotenv import load_dotenv
 

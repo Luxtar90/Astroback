@@ -1,5 +1,5 @@
 # app/routes.py
-from flask import Blueprint, request, jsonify, current_app
+from flask import Blueprint, request, jsonify, current_app, redirect, url_for
 from .ai import process_message
 import logging
 
@@ -7,6 +7,19 @@ import logging
 logger = logging.getLogger(__name__)
 
 bp = Blueprint('main', __name__)
+
+@bp.route('/', methods=['GET'])
+def index():
+    """Endpoint raíz que redirige a /welcome"""
+    try:
+        logger.info("Acceso a la ruta raíz, redirigiendo a /welcome")
+        return redirect(url_for('main.welcome'))
+    except Exception as e:
+        logger.error(f"Error en el endpoint raíz: {str(e)}", exc_info=True)
+        return jsonify({
+            'status': 'error',
+            'message': f'Error en el endpoint raíz: {str(e)}'
+        }), 500
 
 @bp.route('/welcome', methods=['GET'])
 def welcome():

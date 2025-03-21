@@ -63,6 +63,27 @@ EOL
     echo "gunicorn_config.py creado correctamente"
 fi
 
+# Verificar si gevent_patch.py existe
+echo "Verificando si gevent_patch.py existe..."
+if [ -f "gevent_patch.py" ]; then
+    echo "gevent_patch.py EXISTE"
+    chmod +x gevent_patch.py
+    echo "Contenido de gevent_patch.py:"
+    cat gevent_patch.py
+else
+    echo "gevent_patch.py NO EXISTE, creando..."
+    cat > gevent_patch.py << 'EOL'
+# gevent_patch.py
+# Este archivo debe ser importado antes que cualquier otro módulo que use SSL
+from gevent import monkey
+monkey.patch_all()
+
+print("Gevent monkey patching applied successfully")
+EOL
+    chmod +x gevent_patch.py
+    echo "gevent_patch.py creado correctamente"
+fi
+
 # Mostrar información sobre la estructura del proyecto
 echo "Estructura del proyecto:"
 find . -type f -name "*.py" | sort
